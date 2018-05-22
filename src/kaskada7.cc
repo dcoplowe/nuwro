@@ -178,6 +178,7 @@ interaction_parameters kaskada::prepare_interaction()
                                             // according to the params
       corr_func->set_input_point( p->travelled );
       res.xsec *= corr_func->get_value( 1 ); // effective density using correlation function
+      res.xsec_p *= corr_func->get_value( 1 );
       break;
   }
 
