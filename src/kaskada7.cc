@@ -18,6 +18,7 @@ kaskada::kaskada(params &p, event &e1, input_data *input)
   radius = nucl->radius();        // calculate radius of the nucleus
   I = new Interaction(input->get_data_container(0), input->get_data_container(1), input->get_data_container(2),
                       par.kaskada_piN_xsec);
+  corr_func = input->get_data_container(3);
 }
 
 ////////////////////////////////////////
@@ -175,6 +176,8 @@ interaction_parameters kaskada::prepare_interaction()
     case pdg_proton:
       res.xsec /= par.kaskada_NN_mfp_scale; // scale the mean free path (1/res.xsec)
                                             // according to the params
+      corr_func->set_input_point( p->travelled );
+      res.xsec *= corr_func->get_value( 1 ); // effective density using correlation function
       break;
   }
 
